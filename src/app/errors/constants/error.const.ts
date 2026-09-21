@@ -1,0 +1,1 @@
+export const DEFAULT_RESTART_ROUTE='/services/ui/restart';
