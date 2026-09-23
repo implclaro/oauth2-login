@@ -11,7 +11,7 @@ export const useOauthLogin = (): UseMutationResult<LoginResponse, Error, LoginUs
   const [_, searchParamsValidation] = useOauthParams();
 
   const sendCredentials = async (credentials: LoginUser): Promise<LoginResponse> => {
-    const response = await axios.post<LoginResponse>("/api/auth/login", credentials, {
+    const response = await axios.post<LoginResponse>(import.meta.env.VITE_BASE_API_URI, credentials, {
       params: {
         "response_type": searchParamsValidation.params.responseType,
         "client_id": searchParamsValidation.params.clientId,
