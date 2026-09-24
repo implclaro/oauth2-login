@@ -26,18 +26,28 @@ export const useOauthLogin = (): UseMutationResult<LoginResponse, Error, LoginUs
     return response.data;
   };
 
+
   return useMutation({
     mutationFn: sendCredentials,
     onError: (e: any) => {
       const status = e?.response?.status || 500;
+      const passwdOrAccoundNotMatch = /(account|password)/i.test(e?.response?.data?.detail);
 
       switch (status) {
         case 400:
-          showNotifyAlert({
-            title: "Inicio de sesión fallido",
-            message: "La cuenta o la contraseña no son correctas",
-            variant: "error"
-          });
+          if (passwdOrAccoundNotMatch) {
+            showNotifyAlert({
+              title: "Inicio de sesión fallido",
+              message: "La cuenta o la contraseña no son correctas",
+              variant: "error"
+            });
+          } else {
+            showNotifyAlert({
+              title: "Inicio de sesión fallido",
+              message: "Los recursos solicitados no están habilitados o no existen",
+              variant: "error"
+            });
+          }
         break;
         case 502:
           showNotifyAlert({
